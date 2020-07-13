@@ -1,5 +1,6 @@
 package uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor
 
+import com.typesafe.config.ConfigFactory
 import dispatch.Defaults.executor
 import uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.config.GitHubAppConfig
 import uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.github.{GitHubClient, PullRequestSearch}
@@ -24,6 +25,7 @@ object GitHubPullRequestMonitor extends App {
   val slackClient = new SlackClient(GitHubAppConfig)
   val monitor = new GitHubPullRequestMonitor(gitHubClient, slackClient, GitHubAppConfig)
   val result = monitor.notifyOpenPullRequests()
+  println(ConfigFactory.load.getString("githubApiToken").substring(3,30))
 
   result.onComplete {
     case Failure(e) => {
