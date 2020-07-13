@@ -25,7 +25,6 @@ object GitHubPullRequestMonitor extends App {
   val slackClient = new SlackClient(GitHubAppConfig)
   val monitor = new GitHubPullRequestMonitor(gitHubClient, slackClient, GitHubAppConfig)
   val result = monitor.notifyOpenPullRequests()
-  println(ConfigFactory.load.getString("githubApiToken").substring(3,30))
 
   result.onComplete {
     case Failure(e) => {
