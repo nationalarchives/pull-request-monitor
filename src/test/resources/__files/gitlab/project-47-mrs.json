@@ -1,0 +1,28 @@
+[
+  {
+    "id": 444,
+    "iid": 13,
+    "project_id": 47,
+    "title": "Update dri-parent",
+    "description": "Update dri-parent to 1.17, which updates the maven findbugs plugin.\r\n\r\nThis should fix the build when using the latest Maven (3.6.1).\r\n",
+    "state": "opened",
+    "created_at": "2019-05-24T08:53:39.000Z",
+    "updated_at": "2019-05-24T08:53:41.000Z",
+    "target_branch": "master",
+    "source_branch": "update-parent",
+    "upvotes": 0,
+    "downvotes": 0,
+    "author": {
+      "name": "Suzanne Hamilton",
+      "username": "shamilton",
+      "id": 41,
+      "state": "active",
+      "avatar_url": "https://secure.gravatar.com/avatar/64be12cfcd7aadc5bc13a56bd1b7103a?s=40\u0026d=identicon"
+    },
+    "assignee": null,
+    "source_project_id": 47,
+    "target_project_id": 47,
+    "labels": [],
+    "milestone": null
+  }
+]

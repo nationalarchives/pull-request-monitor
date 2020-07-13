@@ -1,0 +1,72 @@
+[
+  {
+    "id": 125,
+    "description": "",
+    "default_branch": "master",
+    "public": false,
+    "archived": false,
+    "visibility_level": 0,
+    "ssh_url_to_repo": "git@dri-dev-scm1.web.local:dri-software/merge-request-monitor.git",
+    "http_url_to_repo": "https://dri-dev-scm1.web.local/dri-software/merge-request-monitor.git",
+    "web_url": "https://dri-dev-scm1.web.local/dri-software/merge-request-monitor",
+    "name": "merge-request-monitor",
+    "name_with_namespace": "dri-software / merge-request-monitor",
+    "path": "merge-request-monitor",
+    "path_with_namespace": "dri-software/merge-request-monitor",
+    "issues_enabled": true,
+    "merge_requests_enabled": true,
+    "wiki_enabled": true,
+    "snippets_enabled": false,
+    "created_at": "2019-04-26T09:53:27.000Z",
+    "last_activity_at": "2019-05-30T14:23:24.000Z",
+    "namespace": {
+      "id": 9,
+      "name": "dri-software",
+      "path": "dri-software",
+      "owner_id": 1,
+      "created_at": "2014-04-14T21:00:03.000Z",
+      "updated_at": "2014-05-23T16:06:58.000Z",
+      "description": "",
+      "avatar": {
+        "url": null
+      },
+      "membership_lock": false
+    },
+    "avatar_url": null
+  },
+  {
+    "id": 47,
+    "description": null,
+    "default_branch": "master",
+    "public": false,
+    "archived": false,
+    "visibility_level": 0,
+    "ssh_url_to_repo": "git@dri-dev-scm1.web.local:dri-software/schematron.git",
+    "http_url_to_repo": "https://dri-dev-scm1.web.local/dri-software/schematron.git",
+    "web_url": "https://dri-dev-scm1.web.local/dri-software/schematron",
+    "name": "schematron",
+    "name_with_namespace": "dri-software / schematron",
+    "path": "schematron",
+    "path_with_namespace": "dri-software/schematron",
+    "issues_enabled": true,
+    "merge_requests_enabled": true,
+    "wiki_enabled": true,
+    "snippets_enabled": false,
+    "created_at": "2014-04-14T21:00:22.000Z",
+    "last_activity_at": "2019-05-24T08:53:39.000Z",
+    "namespace": {
+      "id": 9,
+      "name": "dri-software",
+      "path": "dri-software",
+      "owner_id": 1,
+      "created_at": "2014-04-14T21:00:03.000Z",
+      "updated_at": "2014-05-23T16:06:58.000Z",
+      "description": "",
+      "avatar": {
+        "url": null
+      },
+      "membership_lock": false
+    },
+    "avatar_url": null
+  }
+]
