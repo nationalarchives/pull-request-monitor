@@ -14,23 +14,23 @@ object SlackMessageFormatter {
         projectsWithOpenMrs.map(pr => {
           val prs = pr.mergeRequests.filter(filterFn).map(strFn)
           if (prs.nonEmpty) {
-            s"*${pr.name}*\n${prs.mkString("\n")}"
+            s"    *${pr.name}*\n${prs.mkString("\n")}"
           } else {
             ""
           }
         }).filter(_.nonEmpty).mkString("\n")
       }
-      def newPrToString: MergeRequestSlackPresenter => String = mergeRequest => s"     ${mergeRequest.authorName}: <${mergeRequest.url}|${mergeRequest.title}>"
+      def newPrToString: MergeRequestSlackPresenter => String = mergeRequest => s"         ${mergeRequest.authorName}: <${mergeRequest.url}|${mergeRequest.title}>"
       val newPrProjectMessages: String = projectsToString(pr => pr.daysSinceLastUpdate < 2, newPrToString)
       val oldPrProjectMessages: String = projectsToString(pr => pr.daysSinceLastUpdate >= 2, mergeRequest => s"${newPrToString(mergeRequest)} ${updatedSince(mergeRequest.daysSinceLastUpdate)}")
 
       val output = "Hello team!\n"
-      val newPrs = if (!newPrProjectMessages.isEmpty) output ++ "Here are the pull requests to review today:\n" ++ newPrProjectMessages ++ "\n" else output
-      if (!oldPrProjectMessages.isEmpty) newPrs ++ "These pull requests have had no activity for two days:\n" ++ oldPrProjectMessages else newPrs
+      val oldPrs = if (!oldPrProjectMessages.isEmpty) s"\n${output}These pull requests have had no activity for two days:\n$oldPrProjectMessages\n\n"  else output
+      if (!newPrProjectMessages.isEmpty)  s"${oldPrs}Here are the pull requests to review today:\n$newPrProjectMessages\n" else oldPrs
     }
   }
 
-  private def updatedSince(days: Long): String = s"Updated $days ${if (days == 1) "day" else "days"} ago"
+  private def updatedSince(days: Long): String = s"*Updated $days ${if (days == 1) "day" else "days"} ago*"
 
 }
 

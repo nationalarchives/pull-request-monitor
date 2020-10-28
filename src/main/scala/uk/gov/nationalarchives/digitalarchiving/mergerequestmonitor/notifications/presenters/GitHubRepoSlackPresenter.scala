@@ -18,5 +18,12 @@ class GitHubPullRequestSlackPresenter(pullRequest: PullRequest) extends MergeReq
 
   override def url: String = pullRequest.html_url
 
-  override def daysSinceLastUpdate: Long = ChronoUnit.DAYS.between(ZonedDateTime.now(ZoneId.of("UTC")), pullRequest.updated_at)
+//  override def daysSinceLastUpdate: Long = ChronoUnit.DAYS.between(ZonedDateTime.now(ZoneId.of("UTC")), pullRequest.updated_at)
+  override def daysSinceLastUpdate: Long = {
+    if (authorName.contains("dependabot")) {
+      Math.round(Math.random() * 100)
+    } else {
+      1
+    }
+  }
 }
