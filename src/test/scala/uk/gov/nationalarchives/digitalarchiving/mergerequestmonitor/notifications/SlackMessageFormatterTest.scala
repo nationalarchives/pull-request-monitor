@@ -22,46 +22,68 @@ class SlackMessageFormatterTest extends org.specs2.mutable.Specification {
     "list a single merge request" in {
       val mergeRequestId = 5
       val projects = List(
-        TestProjectPresenter("some-project", List(TestMergeRequestPresenter("Some Author", "Some title", "http://example.com/1")))
+        TestProjectPresenter("some-project", List(TestMergeRequestPresenter("Some Author", "Some title", "http://example.com/1", 1)))
       )
 
       val message = SlackMessageFormatter.format(projects, PULL_REQUEST)
 
-      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n*some-project*\nSome Author: <http://example.com/1|Some title>")
+      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n*some-project*\n     Some Author: <http://example.com/1|Some title>\n")
     }
 
     "list pull requests from multiple projects" in {
       val projects = List(
-        TestProjectPresenter("project-A", List(TestMergeRequestPresenter("Author A", "title A", "http://example.com/A"))),
-        TestProjectPresenter("project-B", List(TestMergeRequestPresenter("Author B", "title B", "http://example.com/B"))),
-        TestProjectPresenter("project-C", List(TestMergeRequestPresenter("Author C", "title C", "http://example.com/C")))
+        TestProjectPresenter("project-A", List(TestMergeRequestPresenter("Author A", "title A", "http://example.com/A", 1))),
+        TestProjectPresenter("project-B", List(TestMergeRequestPresenter("Author B", "title B", "http://example.com/B", 1))),
+        TestProjectPresenter("project-C", List(TestMergeRequestPresenter("Author C", "title C", "http://example.com/C", 1)))
       )
 
       val message = SlackMessageFormatter.format(projects, PULL_REQUEST)
 
-      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n*project-A*\nAuthor A: <http://example.com/A|title A>\n*project-B*\nAuthor B: <http://example.com/B|title B>\n*project-C*\nAuthor C: <http://example.com/C|title C>")
+      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n*project-A*\n     Author A: <http://example.com/A|title A>\n*project-B*\n     Author B: <http://example.com/B|title B>\n*project-C*\n     Author C: <http://example.com/C|title C>\n")
     }
 
     "groups pull requests by project" in {
       val projects = List(
-        TestProjectPresenter("project-A", List(TestMergeRequestPresenter("Some Author", "title A1", "http://example.com/A1"), TestMergeRequestPresenter("Other Author", "title A2", "http://example.com/A2"))),
-        TestProjectPresenter("project-B", List(TestMergeRequestPresenter("Some Author", "title B1", "http://example.com/B1")))
+        TestProjectPresenter("project-A", List(TestMergeRequestPresenter("Some Author", "title A1", "http://example.com/A1", 1), TestMergeRequestPresenter("Other Author", "title A2", "http://example.com/A2", 1))),
+        TestProjectPresenter("project-B", List(TestMergeRequestPresenter("Some Author", "title B1", "http://example.com/B1", 1)))
       )
 
       val message = SlackMessageFormatter.format(projects, PULL_REQUEST)
 
-      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n*project-A*\nSome Author: <http://example.com/A1|title A1>\nOther Author: <http://example.com/A2|title A2>\n*project-B*\nSome Author: <http://example.com/B1|title B1>")
+      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n*project-A*\n     Some Author: <http://example.com/A1|title A1>\n     Other Author: <http://example.com/A2|title A2>\n*project-B*\n     Some Author: <http://example.com/B1|title B1>\n")
     }
 
     "skip projects with no pull requests" in {
       val projects = List(
         TestProjectPresenter("project-A", List()),
-        TestProjectPresenter("project-B", List(TestMergeRequestPresenter("Some Author", "Some title", "http://example.com/A")))
+        TestProjectPresenter("project-B", List(TestMergeRequestPresenter("Some Author", "Some title", "http://example.com/A", 1)))
       )
 
       val message = SlackMessageFormatter.format(projects, PULL_REQUEST)
 
-      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n*project-B*\nSome Author: <http://example.com/A|Some title>")
+      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n*project-B*\n     Some Author: <http://example.com/A|Some title>\n")
+    }
+
+    "lists pull requests which are over two days old" in {
+      val projects = List(
+        TestProjectPresenter("project-A", List(TestMergeRequestPresenter("Some Author", "Some title", "http://example.com/A", 3)))
+      )
+
+      val message = SlackMessageFormatter.format(projects, PULL_REQUEST)
+
+      message must beEqualTo("Hello team!\nThese pull requests have had no activity for two days:\n*project-A*\n     Some Author: <http://example.com/A|Some title> Updated 3 days ago")
+    }
+
+    "lists a mix of old and new pull requests" in {
+      val projects = List(
+        TestProjectPresenter("project-A", List(TestMergeRequestPresenter("Old Author A", "Old title A", "http://example.com/A", 3))),
+        TestProjectPresenter("project-A", List(TestMergeRequestPresenter("New Author A", "New title A", "http://example.com/A", 1))),
+        TestProjectPresenter("project-B", List(TestMergeRequestPresenter("New Author B", "New title B", "http://example.com/B", 1)))
+      )
+
+      val message = SlackMessageFormatter.format(projects, PULL_REQUEST)
+
+      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n*project-A*\n     New Author A: <http://example.com/A|New title A>\n*project-B*\n     New Author B: <http://example.com/B|New title B>\nThese pull requests have had no activity for two days:\n*project-A*\n     Old Author A: <http://example.com/A|Old title A> Updated 3 days ago")
     }
   }
 }
