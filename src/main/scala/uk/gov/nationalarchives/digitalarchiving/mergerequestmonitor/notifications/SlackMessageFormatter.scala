@@ -5,7 +5,6 @@ import uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.notification
 object SlackMessageFormatter {
 
   def format(projects: Seq[ProjectSlackPresenter], mergeRequestsTerm: MergeRequestsTerm): String = {
-    case class PullRequests(name: String, pullRequests: Seq[String])
     val projectsWithOpenMrs = projects.filter(project => project.mergeRequests.nonEmpty)
 
     if (projectsWithOpenMrs.isEmpty) {
