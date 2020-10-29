@@ -1,5 +1,7 @@
 package uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.github
 
+import java.time.ZonedDateTime
+
 import dispatch.Defaults.executor
 import dispatch.url
 import io.circe.generic.auto._
@@ -56,6 +58,6 @@ class GitHubClient(appConfig: GitHubAppConfig) {
 
 case class Repo(name: String, `private`: Boolean)
 
-case class PullRequest(title: String, user: GitHubUser, html_url: String)
+case class PullRequest(title: String, user: GitHubUser, html_url: String, updated_at: ZonedDateTime)
 
 case class GitHubUser(login: String)

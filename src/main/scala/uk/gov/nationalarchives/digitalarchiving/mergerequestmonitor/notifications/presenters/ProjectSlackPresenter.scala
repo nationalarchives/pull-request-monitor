@@ -9,4 +9,5 @@ trait MergeRequestSlackPresenter {
   def title: String
   def authorName: String
   def url: String
+  def daysSinceLastUpdate: Long
 }

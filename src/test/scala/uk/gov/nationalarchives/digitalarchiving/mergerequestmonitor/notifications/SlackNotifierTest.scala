@@ -20,8 +20,8 @@ class SlackNotifierTest extends org.specs2.mutable.Specification with Mockito {
 
       val projects = List(
         TestProjectPresenter("some-project-name", List(
-          TestMergeRequestPresenter("Some Author", "some title", "http://example.com/MR1"),
-          TestMergeRequestPresenter("Other Author", "other title", "http://example.com/MR2")))
+          TestMergeRequestPresenter("Some Author", "some title", "http://example.com/MR1", 1),
+          TestMergeRequestPresenter("Other Author", "other title", "http://example.com/MR2", 1)))
       )
 
       // When
@@ -46,8 +46,8 @@ class SlackNotifierTest extends org.specs2.mutable.Specification with Mockito {
 
       val projects = List(
         TestProjectPresenter("some-project-name", List(
-          TestMergeRequestPresenter("Some Author", "some title", "http://example.com/MR2"),
-          TestMergeRequestPresenter("Other Author", "other title", "http://example.com/MR2")))
+          TestMergeRequestPresenter("Some Author", "some title", "http://example.com/MR2", 1),
+          TestMergeRequestPresenter("Other Author", "other title", "http://example.com/MR2", 1)))
       )
 
       // When

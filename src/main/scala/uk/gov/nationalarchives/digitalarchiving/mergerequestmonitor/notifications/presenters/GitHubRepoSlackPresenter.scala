@@ -1,5 +1,8 @@
 package uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.notifications.presenters
 
+import java.time.{ZoneId, ZonedDateTime}
+import java.time.temporal.ChronoUnit
+
 import uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.github.{PullRequest, Repo}
 
 class GitHubRepoSlackPresenter(repo: Repo, pullRequests: Seq[PullRequest]) extends ProjectSlackPresenter {
@@ -14,4 +17,13 @@ class GitHubPullRequestSlackPresenter(pullRequest: PullRequest) extends MergeReq
   override def authorName: String = pullRequest.user.login
 
   override def url: String = pullRequest.html_url
+
+//  override def daysSinceLastUpdate: Long = ChronoUnit.DAYS.between(ZonedDateTime.now(ZoneId.of("UTC")), pullRequest.updated_at)
+  override def daysSinceLastUpdate: Long = {
+    if (authorName.contains("dependabot")) {
+      Math.round(Math.random() * 100)
+    } else {
+      1
+    }
+  }
 }
