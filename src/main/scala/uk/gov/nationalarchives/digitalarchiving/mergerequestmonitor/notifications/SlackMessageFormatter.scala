@@ -25,7 +25,7 @@ object SlackMessageFormatter {
       val oldPrProjectMessages: String = projectsToString(pr => pr.daysSinceLastUpdate >= 2, mergeRequest => s"${newPrToString(mergeRequest)} ${updatedSince(mergeRequest.daysSinceLastUpdate)}")
 
       val output = "Hello team!\n"
-      val oldPrs = if (!oldPrProjectMessages.isEmpty) s"\n${output}These pull requests have had no activity for two days:\n$oldPrProjectMessages\n\n"  else output
+      val oldPrs = if (!oldPrProjectMessages.isEmpty) s"\n${output}These pull requests have had no activity for more than two days:\n$oldPrProjectMessages\n\n"  else output
       if (!newPrProjectMessages.isEmpty)  s"${oldPrs}Here are the pull requests to review today:\n$newPrProjectMessages\n" else oldPrs
     }
   }
