@@ -19,4 +19,10 @@ class GitHubPullRequestSlackPresenter(pullRequest: PullRequest) extends MergeReq
   override def url: String = pullRequest.html_url
 
   override def daysSinceLastUpdate: Long = ChronoUnit.DAYS.between(pullRequest.updated_at, ZonedDateTime.now(ZoneId.of("UTC")))
+
+  override def draft: String = if(pullRequest.draft) {
+    " Draft"
+  } else {
+    ""
+  }
 }

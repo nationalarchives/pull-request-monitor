@@ -20,7 +20,7 @@ object SlackMessageFormatter {
           }
         }).filter(_.nonEmpty).mkString("\n")
       }
-      def newPrToString: MergeRequestSlackPresenter => String = mergeRequest => s"         ${mergeRequest.authorName}: <${mergeRequest.url}|${mergeRequest.title}>"
+      def newPrToString: MergeRequestSlackPresenter => String = mergeRequest => s"         ${mergeRequest.authorName}: <${mergeRequest.url}|${mergeRequest.title}>${mergeRequest.draft}"
       val newPrProjectMessages: String = projectsToString(pr => pr.daysSinceLastUpdate < 2, newPrToString)
       val oldPrProjectMessages: String = projectsToString(pr => pr.daysSinceLastUpdate >= 2, mergeRequest => s"${newPrToString(mergeRequest)} ${updatedSince(mergeRequest.daysSinceLastUpdate)}")
 
