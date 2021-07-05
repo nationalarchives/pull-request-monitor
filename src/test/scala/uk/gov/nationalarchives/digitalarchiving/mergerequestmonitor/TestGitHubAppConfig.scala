@@ -5,6 +5,7 @@ import uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.config.GitHu
 case class TestGitHubAppConfig(
   dryRun: Boolean,
   gitHubBaseUrl: String,
+  githubOrgBaseUrl: String,
   organisationName: String,
   teamId: String,
   gitHubUserName: String,
@@ -14,4 +15,5 @@ case class TestGitHubAppConfig(
   val slackWebhookPath = "/slack/webhook"
 
   override val slackUrl: String = slackBaseUrl + slackWebhookPath
+
 }

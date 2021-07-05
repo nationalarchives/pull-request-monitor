@@ -11,6 +11,7 @@
     "state": "open",
     "locked": false,
     "title": "Add draft Terraform documentation",
+    "draft": false,
     "user": {
       "login": "TomJKing",
       "id": 51711388,
