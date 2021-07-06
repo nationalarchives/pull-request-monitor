@@ -10,7 +10,6 @@ class SlackNotifierTest extends org.specs2.mutable.Specification with Mockito {
       val appConfig = TestGitHubAppConfig(
         false,
         "url",
-        "orgUrl",
         "org",
         "team",
         "gitHubUser",
@@ -37,7 +36,6 @@ class SlackNotifierTest extends org.specs2.mutable.Specification with Mockito {
       val appConfig = TestGitHubAppConfig(
         true,
         "url",
-        "orgUrl",
         "org",
         "team",
         "gitHubUser",

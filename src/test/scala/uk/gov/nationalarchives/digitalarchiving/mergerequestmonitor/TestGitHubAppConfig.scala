@@ -5,7 +5,6 @@ import uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.config.GitHu
 case class TestGitHubAppConfig(
   dryRun: Boolean,
   gitHubBaseUrl: String,
-  githubOrgBaseUrl: String,
   organisationName: String,
   teamId: String,
   gitHubUserName: String,
