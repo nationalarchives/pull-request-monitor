@@ -15,7 +15,7 @@ import scala.concurrent.Future
 class GitHubClient(appConfig: GitHubAppConfig) {
   def reposByTeam(teamId: String): Future[Seq[Repo]] = {
     val path = s"/teams/$teamId/repos"
-    paginateRepos(s"${appConfig.githubOrgBaseUrl}$path")
+    paginateRepos(s"${appConfig.gitHubBaseUrl}/orgs/${appConfig.organisationName}$path")
       .map(_.filter(r => r.permissions.admin || r.permissions.push))
   }
 

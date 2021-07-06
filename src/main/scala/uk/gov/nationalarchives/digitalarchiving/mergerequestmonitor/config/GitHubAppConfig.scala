@@ -4,7 +4,6 @@ import com.typesafe.config.ConfigFactory
 
 trait GitHubAppConfig extends AppConfig {
   def gitHubBaseUrl: String
-  def githubOrgBaseUrl: String
   def organisationName: String
   def teamId: String
   def gitHubUserName: String
@@ -20,5 +19,4 @@ object GitHubAppConfig extends GitHubAppConfig {
   override val slackUrl: String = config.getString("slackUrl")
   override val gitHubUserName: String = config.getString("githubUserName")
   override val gitHubApiToken: String = config.getString("githubApiToken")
-  override def githubOrgBaseUrl: String = config.getString("githubOrgBaseUrl")
 }
