@@ -11,6 +11,7 @@
     "state": "open",
     "locked": false,
     "title": "Add filters",
+    "draft": false,
     "user": {
       "login": "ian-hoyle",
       "id": 5245264,
@@ -398,6 +399,7 @@
     "state": "open",
     "locked": false,
     "title": "Add file upload page",
+    "draft": false,
     "user": {
       "login": "suzannehamilton",
       "id": 8880610,

@@ -19,7 +19,7 @@ class GitHubPullRequestMonitorIntegrationTest extends org.specs2.mutable.Specifi
       val teamName = "some-team-name"
       val gitHubUser = "some-username"
       val gitHubApiToken = "some-api-token"
-      val reposPath = "/teams/some-team-name/repos"
+      val reposPath = "/orgs/some-organisation/teams/some-team-name/repos"
       val repo1Path = "/repos/some-organisation/tdr-dev-documentation/pulls"
       val repo2Path = "/repos/some-organisation/tdr-prototype-mvc/pulls"
       val repo3Path = "/repos/some-organisation/prototype-server/pulls"
@@ -54,7 +54,7 @@ class GitHubPullRequestMonitorIntegrationTest extends org.specs2.mutable.Specifi
 
       val slackClient = new SlackClient(appConfig)
       val gitHubClient = new GitHubClient(appConfig)
-      val mergeRequestMonitor = new GitHubPullRequestMonitor(gitHubClient, slackClient, appConfig)
+      val mergeRequestMonitor = new GitHubPullRequestMonitor(gitHubClient, slackClient, appConfig, new FixedTimeSource())
 
       // When
       val result = mergeRequestMonitor.notifyOpenPullRequests()

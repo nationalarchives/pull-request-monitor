@@ -15,7 +15,8 @@ import scala.concurrent.Future
 class GitHubClient(appConfig: GitHubAppConfig) {
   def reposByTeam(teamId: String): Future[Seq[Repo]] = {
     val path = s"/teams/$teamId/repos"
-    paginateRepos(s"${appConfig.gitHubBaseUrl}$path")
+    paginateRepos(s"${appConfig.gitHubBaseUrl}/orgs/${appConfig.organisationName}$path")
+      .map(_.filter(r => r.permissions.admin || r.permissions.push))
   }
 
   def repoPullRequests(repoName: String): Future[Seq[PullRequest]] = {
@@ -56,8 +57,10 @@ class GitHubClient(appConfig: GitHubAppConfig) {
   }
 }
 
-case class Repo(name: String, `private`: Boolean)
+case class Repo(name: String, permissions: Permissions)
 
-case class PullRequest(title: String, user: GitHubUser, html_url: String, updated_at: ZonedDateTime)
+case class Permissions(admin: Boolean, push: Boolean)
+
+case class PullRequest(title: String, user: GitHubUser, html_url: String, updated_at: ZonedDateTime, draft: Boolean, state: String)
 
 case class GitHubUser(login: String)

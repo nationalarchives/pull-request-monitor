@@ -14,4 +14,5 @@ case class TestGitHubAppConfig(
   val slackWebhookPath = "/slack/webhook"
 
   override val slackUrl: String = slackBaseUrl + slackWebhookPath
+
 }

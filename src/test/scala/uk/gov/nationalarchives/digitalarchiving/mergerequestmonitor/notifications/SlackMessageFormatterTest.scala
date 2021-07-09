@@ -71,7 +71,7 @@ class SlackMessageFormatterTest extends org.specs2.mutable.Specification {
 
       val message = SlackMessageFormatter.format(projects, PULL_REQUEST)
 
-      message must beEqualTo("\nHello team!\nThese pull requests have had no activity for two days:\n    *project-A*\n         Some Author: <http://example.com/A|Some title> *Updated 3 days ago*\n\n")
+      message must beEqualTo("\nHello team!\nThese pull requests have had no activity for more than two days:\n    *project-A*\n         Some Author: <http://example.com/A|Some title> *Updated 3 days ago*\n\n")
     }
 
     "lists a mix of old and new pull requests" in {
@@ -83,7 +83,16 @@ class SlackMessageFormatterTest extends org.specs2.mutable.Specification {
 
       val message = SlackMessageFormatter.format(projects, PULL_REQUEST)
 
-      message must beEqualTo("\nHello team!\nThese pull requests have had no activity for two days:\n    *project-A*\n         Old Author A: <http://example.com/A|Old title A> *Updated 3 days ago*\n\nHere are the pull requests to review today:\n    *project-A*\n         New Author A: <http://example.com/A|New title A>\n    *project-B*\n         New Author B: <http://example.com/B|New title B>\n")
+      message must beEqualTo("\nHello team!\nThese pull requests have had no activity for more than two days:\n    *project-A*\n         Old Author A: <http://example.com/A|Old title A> *Updated 3 days ago*\n\nHere are the pull requests to review today:\n    *project-A*\n         New Author A: <http://example.com/A|New title A>\n    *project-B*\n         New Author B: <http://example.com/B|New title B>\n")
+    }
+
+    "display Draft if the pull request is a draft" in {
+      val projects = List(
+        TestProjectPresenter("project-A", List(TestMergeRequestPresenter("Some Author", "Some title", "http://example.com/A", 1, " Draft"))),
+      )
+      val message = SlackMessageFormatter.format(projects, PULL_REQUEST)
+
+      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n    *project-A*\n         Some Author: <http://example.com/A|Some title> Draft\n")
     }
   }
 }
