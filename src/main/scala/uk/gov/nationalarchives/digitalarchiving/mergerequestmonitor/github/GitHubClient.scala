@@ -13,6 +13,13 @@ import uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.http.CustomH
 import scala.concurrent.Future
 
 class GitHubClient(appConfig: GitHubAppConfig) {
+  implicit class EitherUtils[U](e: Either[Exception, U]) {
+    def toFuture: Future[U] = e match {
+      case Left(err) => Future.failed(err)
+      case Right(value) => Future(value)
+    }
+  }
+
   def reposByTeam(teamId: String): Future[Seq[Repo]] = {
     val path = s"/teams/$teamId/repos"
     paginateRepos(s"${appConfig.gitHubBaseUrl}/orgs/${appConfig.organisationName}$path")
@@ -21,7 +28,22 @@ class GitHubClient(appConfig: GitHubAppConfig) {
 
   def repoPullRequests(repoName: String): Future[Seq[PullRequest]] = {
     val responseBody = get(s"/repos/${appConfig.organisationName}/$repoName/pulls")
-    responseBody.flatMap(body => Future.fromTry(decode[Seq[PullRequest]](body).toTry))
+    responseBody.flatMap(body => {
+      decode[Seq[PullRequest]](body) match {
+        case Left(err) => Future.failed(err)
+        case Right(value) => Future.sequence {
+          value.map(pr => {
+            get(s"/repos/${appConfig.organisationName}/$repoName/pulls/${pr.number}/reviews").map(reviewBody => {
+              val approved = decode[Seq[PullRequestReview]](reviewBody) match {
+                case Left(err) => throw err
+                case Right(value) => value.lastOption.map(prr => if(prr.state == "APPROVED") "Approved" else "")
+              }
+              pr.copy(reviewStatus = approved)
+            })
+          })
+        }
+      }
+    })
   }
 
   private def paginateRepos(currentPageUrl: String): Future[Seq[Repo]] = {
@@ -61,6 +83,8 @@ case class Repo(name: String, permissions: Permissions)
 
 case class Permissions(admin: Boolean, push: Boolean)
 
-case class PullRequest(title: String, user: GitHubUser, html_url: String, updated_at: ZonedDateTime, draft: Boolean, state: String)
+case class PullRequest(title: String, number: Integer, user: GitHubUser, html_url: String, updated_at: ZonedDateTime, draft: Boolean, state: String, reviewStatus: Option[String])
+
+case class PullRequestReview(state: String)
 
 case class GitHubUser(login: String)

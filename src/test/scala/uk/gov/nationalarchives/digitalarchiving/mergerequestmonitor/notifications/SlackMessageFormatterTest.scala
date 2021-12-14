@@ -27,7 +27,7 @@ class SlackMessageFormatterTest extends org.specs2.mutable.Specification {
 
       val message = SlackMessageFormatter.format(projects, PULL_REQUEST)
 
-      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n    *some-project*\n         Some Author: <http://example.com/1|Some title>\n")
+      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n    *some-project*\n         Some Author: <http://example.com/1| Some title> \n")
     }
 
     "list pull requests from multiple projects" in {
@@ -39,7 +39,7 @@ class SlackMessageFormatterTest extends org.specs2.mutable.Specification {
 
       val message = SlackMessageFormatter.format(projects, PULL_REQUEST)
 
-      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n    *project-A*\n         Author A: <http://example.com/A|title A>\n    *project-B*\n         Author B: <http://example.com/B|title B>\n    *project-C*\n         Author C: <http://example.com/C|title C>\n")
+      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n    *project-A*\n         Author A: <http://example.com/A| title A> \n    *project-B*\n         Author B: <http://example.com/B| title B> \n    *project-C*\n         Author C: <http://example.com/C| title C> \n")
     }
 
     "groups pull requests by project" in {
@@ -50,7 +50,7 @@ class SlackMessageFormatterTest extends org.specs2.mutable.Specification {
 
       val message = SlackMessageFormatter.format(projects, PULL_REQUEST)
 
-      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n    *project-A*\n         Some Author: <http://example.com/A1|title A1>\n         Other Author: <http://example.com/A2|title A2>\n    *project-B*\n         Some Author: <http://example.com/B1|title B1>\n")
+      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n    *project-A*\n         Some Author: <http://example.com/A1| title A1> \n         Other Author: <http://example.com/A2| title A2> \n    *project-B*\n         Some Author: <http://example.com/B1| title B1> \n")
     }
 
     "skip projects with no pull requests" in {
@@ -61,7 +61,7 @@ class SlackMessageFormatterTest extends org.specs2.mutable.Specification {
 
       val message = SlackMessageFormatter.format(projects, PULL_REQUEST)
 
-      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n    *project-B*\n         Some Author: <http://example.com/A|Some title>\n")
+      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n    *project-B*\n         Some Author: <http://example.com/A| Some title> \n")
     }
 
     "lists pull requests which are over two days old" in {
@@ -71,7 +71,7 @@ class SlackMessageFormatterTest extends org.specs2.mutable.Specification {
 
       val message = SlackMessageFormatter.format(projects, PULL_REQUEST)
 
-      message must beEqualTo("\nHello team!\nThese pull requests have had no activity for more than two days:\n    *project-A*\n         Some Author: <http://example.com/A|Some title> *Updated 3 days ago*\n\n")
+      message must beEqualTo("\nHello team!\nThese pull requests have had no activity for more than two days:\n    *project-A*\n         Some Author: <http://example.com/A| Some title>  *Updated 3 days ago*\n\n")
     }
 
     "lists a mix of old and new pull requests" in {
@@ -83,7 +83,7 @@ class SlackMessageFormatterTest extends org.specs2.mutable.Specification {
 
       val message = SlackMessageFormatter.format(projects, PULL_REQUEST)
 
-      message must beEqualTo("\nHello team!\nThese pull requests have had no activity for more than two days:\n    *project-A*\n         Old Author A: <http://example.com/A|Old title A> *Updated 3 days ago*\n\nHere are the pull requests to review today:\n    *project-A*\n         New Author A: <http://example.com/A|New title A>\n    *project-B*\n         New Author B: <http://example.com/B|New title B>\n")
+      message must beEqualTo("\nHello team!\nThese pull requests have had no activity for more than two days:\n    *project-A*\n         Old Author A: <http://example.com/A| Old title A>  *Updated 3 days ago*\n\nHere are the pull requests to review today:\n    *project-A*\n         New Author A: <http://example.com/A| New title A> \n    *project-B*\n         New Author B: <http://example.com/B| New title B> \n")
     }
 
     "display Draft if the pull request is a draft" in {
@@ -92,7 +92,7 @@ class SlackMessageFormatterTest extends org.specs2.mutable.Specification {
       )
       val message = SlackMessageFormatter.format(projects, PULL_REQUEST)
 
-      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n    *project-A*\n         Some Author: <http://example.com/A|Some title> Draft\n")
+      message must beEqualTo("Hello team!\nHere are the pull requests to review today:\n    *project-A*\n         Some Author: <http://example.com/A| Some title> Draft \n")
     }
   }
 }
