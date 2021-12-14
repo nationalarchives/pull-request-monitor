@@ -1,10 +1,9 @@
 package uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.notifications.presenters
 
 import uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.config.TimeSource
-
-import java.time.{ZoneId, ZonedDateTime}
-import java.time.temporal.ChronoUnit
 import uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.github.{PullRequest, Repo}
+
+import java.time.temporal.ChronoUnit
 
 class GitHubRepoSlackPresenter(repo: Repo, pullRequests: Seq[PullRequest], timeSource: TimeSource) extends ProjectSlackPresenter {
   override def name: String = repo.name
@@ -26,4 +25,6 @@ class GitHubPullRequestSlackPresenter(pullRequest: PullRequest, timeSource: Time
   } else {
     ""
   }
+
+  override def reviewStatus: String = pullRequest.reviewStatus.getOrElse("")
 }
