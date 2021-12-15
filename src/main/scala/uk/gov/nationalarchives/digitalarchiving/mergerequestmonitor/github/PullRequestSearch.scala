@@ -24,4 +24,4 @@ class PullRequestSearch(gitHubClient: GitHubClient, appConfig: GitHubAppConfig) 
   }
 }
 
-case class PullRequestSearchResults(repo: Repo, pullRequests: Seq[PullRequest])
+case class PullRequestSearchResults(repo: Repo, pullRequests: Seq[PullRequestWithComments])

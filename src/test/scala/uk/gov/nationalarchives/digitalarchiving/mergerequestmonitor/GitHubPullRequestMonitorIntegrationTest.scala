@@ -21,12 +21,17 @@ class GitHubPullRequestMonitorIntegrationTest extends org.specs2.mutable.Specifi
       val gitHubApiToken = "some-api-token"
       val reposPath = "/orgs/some-organisation/teams/some-team-name/repos"
       val repo1Path = "/repos/some-organisation/tdr-dev-documentation/pulls"
-      val repo1ReviewPath = "/repos/some-organisation/tdr-dev-documentation/pulls/1/reviews"
       val repo2Path = "/repos/some-organisation/tdr-prototype-mvc/pulls"
+      val repo1ReviewPath = "/repos/some-organisation/tdr-dev-documentation/pulls/1/reviews"
       val repo2ReviewPath1 = "/repos/some-organisation/tdr-prototype-mvc/pulls/33/reviews"
       val repo2ReviewPath2 = "/repos/some-organisation/tdr-prototype-mvc/pulls/25/reviews"
       val repo3ReviewPath1 = "/repos/some-organisation/prototype-server/pulls/33/reviews"
       val repo3ReviewPath2 = "/repos/some-organisation/prototype-server/pulls/25/reviews"
+      val repo1CommentPath = "/repos/some-organisation/tdr-dev-documentation/pulls/1/comments"
+      val repo2CommentPath1 = "/repos/some-organisation/tdr-prototype-mvc/pulls/33/comments"
+      val repo2CommentPath2 = "/repos/some-organisation/tdr-prototype-mvc/pulls/25/comments"
+      val repo3CommentPath1 = "/repos/some-organisation/prototype-server/pulls/33/comments"
+      val repo3CommentPath2 = "/repos/some-organisation/prototype-server/pulls/25/comments"
       val repo3Path = "/repos/some-organisation/prototype-server/pulls"
       val appConfig = TestGitHubAppConfig(
         false,
@@ -36,6 +41,7 @@ class GitHubPullRequestMonitorIntegrationTest extends org.specs2.mutable.Specifi
         gitHubUser,
         gitHubApiToken,
         wiremockServers.slack.baseUrl)
+      val userData = "[{\"user\" : {\"login\": \"testlogin\"}}]"
 
       wiremockServers.repoHost.stubFor(get(s"$reposPath")
         .withBasicAuth(gitHubUser, gitHubApiToken)
@@ -71,6 +77,22 @@ class GitHubPullRequestMonitorIntegrationTest extends org.specs2.mutable.Specifi
       wiremockServers.repoHost.stubFor(get(repo3ReviewPath2)
         .withBasicAuth(gitHubUser, gitHubApiToken)
         .willReturn(aResponse().withBody("[{\"state\": \"CHANGES_REQUESTED\"}]")))
+      wiremockServers.repoHost.stubFor(get(repo1CommentPath)
+        .withBasicAuth(gitHubUser, gitHubApiToken)
+        .willReturn(aResponse().withBody("[]")))
+      wiremockServers.repoHost.stubFor(get(repo2CommentPath1)
+        .withBasicAuth(gitHubUser, gitHubApiToken)
+        .willReturn(aResponse().withBody("[]")))
+      wiremockServers.repoHost.stubFor(get(repo2CommentPath2)
+        .withBasicAuth(gitHubUser, gitHubApiToken)
+        .willReturn(aResponse().withBody(userData)))
+      wiremockServers.repoHost.stubFor(get(repo3CommentPath1)
+        .withBasicAuth(gitHubUser, gitHubApiToken)
+        .willReturn(aResponse().withBody("[]")))
+      wiremockServers.repoHost.stubFor(get(repo3CommentPath2)
+        .withBasicAuth(gitHubUser, gitHubApiToken)
+        .willReturn(aResponse().withBody(userData)))
+
 
       val slackClient = new SlackClient(appConfig)
       val gitHubClient = new GitHubClient(appConfig)

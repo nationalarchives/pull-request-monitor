@@ -12,4 +12,6 @@ trait MergeRequestSlackPresenter {
   def daysSinceLastUpdate: Long
   def draft: String
   def reviewStatus: String
+  def commentUsers: String
+  def commentCount: String
 }
