@@ -44,7 +44,7 @@ class GitHubClient(appConfig: GitHubAppConfig) {
               commentsPr <- get(s"/repos/${appConfig.organisationName}/$repoName/pulls/${pr.number}/comments").map(reviewBody => {
                 decode[List[PullRequestComments]](reviewBody) match {
                   case Left(err) => throw err
-                  case Right(value) => PullRequestWithComments(reviewPr, value.map(_.user.login), value.length)
+                  case Right(value) => PullRequestWithComments(reviewPr, value.map(_.user.login))
                 }
               })
             } yield commentsPr
@@ -93,7 +93,7 @@ case class Permissions(admin: Boolean, push: Boolean)
 
 case class PullRequest(title: String, number: Integer, user: GitHubUser, html_url: String, updated_at: ZonedDateTime, draft: Boolean, state: String, reviewStatus: Option[String])
 
-case class PullRequestWithComments(pullRequest: PullRequest, commentUsers: List[String] = Nil, commentsCount: Int = 0)
+case class PullRequestWithComments(pullRequest: PullRequest, commentUsers: List[String] = Nil)
 
 case class PullRequestReview(state: String)
 

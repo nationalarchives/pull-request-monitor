@@ -32,12 +32,6 @@ class GitHubPullRequestSlackPresenter(pullRequestWithComments: PullRequestWithCo
   override def commentUsers: String = if(pullRequestWithComments.commentUsers.isEmpty) {
     ""
   } else {
-    pullRequestWithComments.commentUsers.distinct.mkString(",").trim
-  }
-
-  override def commentCount: String = if(pullRequestWithComments.commentsCount == 0) {
-    ""
-  } else {
-    s"${pullRequestWithComments.commentsCount} comments"
+    s"Commented on by ${pullRequestWithComments.commentUsers.distinct.mkString(",").trim}"
   }
 }
