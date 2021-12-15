@@ -37,7 +37,7 @@ class GitHubClient(appConfig: GitHubAppConfig) {
               reviewPr <- get(s"/repos/${appConfig.organisationName}/$repoName/pulls/${pr.number}/reviews").map(reviewBody => {
                 val approved = decode[Seq[PullRequestReview]](reviewBody) match {
                   case Left(err) => throw err
-                  case Right(value) => value.lastOption.map(prr => if(prr.state == "APPROVED") "Approved" else "")
+                  case Right(value) => value.lastOption.map(prr => if(prr.state == "APPROVED") " - Approved" else "")
                 }
                 pr.copy(reviewStatus = approved)
               })
