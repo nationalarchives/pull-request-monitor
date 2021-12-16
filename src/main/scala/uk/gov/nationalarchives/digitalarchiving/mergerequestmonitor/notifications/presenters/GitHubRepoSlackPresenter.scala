@@ -1,17 +1,18 @@
 package uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.notifications.presenters
 
 import uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.config.TimeSource
-import uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.github.{PullRequest, Repo}
+import uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.github.{PullRequest, PullRequestWithComments, Repo}
 
 import java.time.temporal.ChronoUnit
 
-class GitHubRepoSlackPresenter(repo: Repo, pullRequests: Seq[PullRequest], timeSource: TimeSource) extends ProjectSlackPresenter {
+class GitHubRepoSlackPresenter(repo: Repo, pullRequests: Seq[PullRequestWithComments], timeSource: TimeSource) extends ProjectSlackPresenter {
   override def name: String = repo.name
 
   override def mergeRequests: Seq[MergeRequestSlackPresenter] = pullRequests.map(pullRequest => new GitHubPullRequestSlackPresenter(pullRequest, timeSource))
 }
 
-class GitHubPullRequestSlackPresenter(pullRequest: PullRequest, timeSource: TimeSource) extends MergeRequestSlackPresenter {
+class GitHubPullRequestSlackPresenter(pullRequestWithComments: PullRequestWithComments, timeSource: TimeSource) extends MergeRequestSlackPresenter {
+  val pullRequest: PullRequest = pullRequestWithComments.pullRequest
   override def title: String = pullRequest.title
 
   override def authorName: String = pullRequest.user.login
@@ -27,4 +28,10 @@ class GitHubPullRequestSlackPresenter(pullRequest: PullRequest, timeSource: Time
   }
 
   override def reviewStatus: String = pullRequest.reviewStatus.getOrElse("")
+
+  override def commentUsers: String = if(pullRequestWithComments.commentUsers.isEmpty) {
+    ""
+  } else {
+    s" - Commented on by ${pullRequestWithComments.commentUsers.filter(_ != pullRequest.user.login).distinct.mkString(",")}"
+  }
 }

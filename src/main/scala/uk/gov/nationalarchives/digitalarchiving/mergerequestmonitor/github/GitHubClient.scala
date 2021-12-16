@@ -26,20 +26,28 @@ class GitHubClient(appConfig: GitHubAppConfig) {
       .map(_.filter(r => r.permissions.admin || r.permissions.push))
   }
 
-  def repoPullRequests(repoName: String): Future[Seq[PullRequest]] = {
+  def repoPullRequests(repoName: String): Future[Seq[PullRequestWithComments]] = {
     val responseBody = get(s"/repos/${appConfig.organisationName}/$repoName/pulls")
     responseBody.flatMap(body => {
       decode[Seq[PullRequest]](body) match {
         case Left(err) => Future.failed(err)
         case Right(value) => Future.sequence {
           value.map(pr => {
-            get(s"/repos/${appConfig.organisationName}/$repoName/pulls/${pr.number}/reviews").map(reviewBody => {
-              val approved = decode[Seq[PullRequestReview]](reviewBody) match {
-                case Left(err) => throw err
-                case Right(value) => value.lastOption.map(prr => if(prr.state == "APPROVED") "Approved" else "")
-              }
-              pr.copy(reviewStatus = approved)
-            })
+            for {
+              reviewPr <- get(s"/repos/${appConfig.organisationName}/$repoName/pulls/${pr.number}/reviews").map(reviewBody => {
+                val approved = decode[Seq[PullRequestReview]](reviewBody) match {
+                  case Left(err) => throw err
+                  case Right(value) => value.lastOption.map(prr => if(prr.state == "APPROVED") " - Approved" else "")
+                }
+                pr.copy(reviewStatus = approved)
+              })
+              commentsPr <- get(s"/repos/${appConfig.organisationName}/$repoName/pulls/${pr.number}/comments").map(reviewBody => {
+                decode[List[PullRequestComments]](reviewBody) match {
+                  case Left(err) => throw err
+                  case Right(value) => PullRequestWithComments(reviewPr, value.map(_.user.login))
+                }
+              })
+            } yield commentsPr
           })
         }
       }
@@ -85,6 +93,10 @@ case class Permissions(admin: Boolean, push: Boolean)
 
 case class PullRequest(title: String, number: Integer, user: GitHubUser, html_url: String, updated_at: ZonedDateTime, draft: Boolean, state: String, reviewStatus: Option[String])
 
+case class PullRequestWithComments(pullRequest: PullRequest, commentUsers: List[String] = Nil)
+
 case class PullRequestReview(state: String)
+
+case class PullRequestComments(user: GitHubUser)
 
 case class GitHubUser(login: String)
