@@ -9,7 +9,7 @@ case class WiremockServers(repoHost: WireMockServer, slack: WireMockServer)
 
 trait WiremockContext extends ForEach[WiremockServers] {
   override def foreach[R: AsResult](f: WiremockServers => R): Result = {
-    val repoHost = new WireMockServer(WireMockConfiguration.options().port(8084))
+    val repoHost = new WireMockServer(WireMockConfiguration.options().port(8086))
     val slack = new WireMockServer(WireMockConfiguration.options().port(8085))
     val wiremockServers = WiremockServers(repoHost, slack)
 
