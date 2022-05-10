@@ -1,0 +1,14 @@
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron: '2 7 * * *'
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    name: Run Pull Request Monitor
+    steps:
+      - run: sbt run
+        env:
+          SLACK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          GITHUB_API_TOKEN: ${{ secrets.WORKFLOW_PAT }}
