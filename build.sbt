@@ -8,7 +8,7 @@ fork in run := true
 
 libraryDependencies += "org.dispatchhttp" %% "dispatch-core" % "1.0.1"
 
-val circeVersion = "0.11.1"
+val circeVersion = "0.11.2"
 
 libraryDependencies ++= Seq(
   "io.circe" %% "circe-core",
