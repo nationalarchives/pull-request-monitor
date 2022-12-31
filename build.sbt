@@ -21,6 +21,6 @@ libraryDependencies += "com.typesafe" % "config" % "1.4.0"
 // Test
 libraryDependencies ++= Seq("org.specs2" %% "specs2-core" % "4.3.4" % "test")
 libraryDependencies ++= Seq("org.specs2" %% "specs2-mock" % "4.3.4" % "test")
-libraryDependencies += "com.github.tomakehurst" % "wiremock-jre8" % "2.24.1" % Test
+libraryDependencies += "com.github.tomakehurst" % "wiremock-jre8" % "2.35.0" % Test
 
 scalacOptions in Test ++= Seq("-Yrangepos")
