@@ -4,7 +4,7 @@ version := "0.1"
 
 scalaVersion := "2.12.8"
 
-fork in run := true
+(run / fork) := true
 
 libraryDependencies += "org.dispatchhttp" %% "dispatch-core" % "1.0.1"
 
@@ -23,4 +23,4 @@ libraryDependencies ++= Seq("org.specs2" %% "specs2-core" % "4.3.4" % "test")
 libraryDependencies ++= Seq("org.specs2" %% "specs2-mock" % "4.3.4" % "test")
 libraryDependencies += "com.github.tomakehurst" % "wiremock-jre8" % "2.24.1" % Test
 
-scalacOptions in Test ++= Seq("-Yrangepos")
+(Test / scalacOptions) ++= Seq("-Yrangepos")
