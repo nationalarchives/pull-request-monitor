@@ -6,7 +6,7 @@ scalaVersion := "2.12.17"
 
 (run / fork) := true
 
-libraryDependencies += "org.dispatchhttp" %% "dispatch-core" % "1.0.1"
+libraryDependencies += "org.dispatchhttp" %% "dispatch-core" % "1.0.3"
 
 val circeVersion = "0.11.1"
 
