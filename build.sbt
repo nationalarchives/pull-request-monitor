@@ -2,7 +2,7 @@ name := "merge-request-monitor"
 
 version := "0.1"
 
-scalaVersion := "2.12.17"
+scalaVersion := "2.13.10"
 
 (run / fork) := true
 
