@@ -4,12 +4,26 @@ on:
   schedule:
     - cron: '2 7 * * *'
 jobs:
-  run:
+
+  run-tdr:
     runs-on: ubuntu-latest
+    environment: tdr
     steps:
       - uses: actions/checkout@v3
       - run: sbt run
         env:
           SLACK_URL: ${{ secrets.SLACK_WEBHOOK }}
           GITHUB_API_TOKEN: ${{ secrets.WORKFLOW_PAT }}
+          TEAM: transfer-digital-records
+          DRY_RUN: false
+  run-dri:
+    runs-on: ubuntu-latest
+    environment: dri
+    steps:
+      - uses: actions/checkout@v3
+      - run: sbt run
+        env:
+          SLACK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          GITHUB_API_TOKEN: ${{ secrets.WORKFLOW_PAT }}
+          TEAM: digital-records-infrastructure
           DRY_RUN: false
