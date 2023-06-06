@@ -25,5 +25,5 @@ jobs:
         env:
           SLACK_URL: ${{ secrets.SLACK_WEBHOOK }}
           GITHUB_API_TOKEN: ${{ secrets.WORKFLOW_PAT }}
-          TEAM: digital-records-infrastructure
+          TEAM: digital-records-repository
           DRY_RUN: false
