@@ -16,7 +16,7 @@ libraryDependencies ++= Seq(
   "io.circe" %% "circe-parser",
 ).map(_ % circeVersion)
 
-libraryDependencies += "com.typesafe" % "config" % "1.4.2"
+libraryDependencies += "com.typesafe" % "config" % "1.4.3"
 
 // Test
 libraryDependencies ++= Seq("org.specs2" %% "specs2-core" % "4.20.2" % "test")
