@@ -4,7 +4,7 @@ import dispatch.Http
 import org.asynchttpclient.proxy.{ProxyServer, ProxyServerSelector}
 import org.asynchttpclient.uri.Uri
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 object CustomHttp {
   val proxied: Http = Http.withConfiguration(builder => builder.setProxyServerSelector(proxyServerSelector))
