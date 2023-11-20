@@ -6,22 +6,18 @@ import uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.config.GitHu
 import scala.concurrent.Future
 
 class PullRequestSearch(gitHubClient: GitHubClient, appConfig: GitHubAppConfig) {
-  def getPullRequests: Future[Seq[PullRequestSearchResults]] = {
+  def getPullRequests: Future[Seq[PullRequestSearchResults]] =
     for {
       projects <- gitHubClient.reposByTeam(appConfig.teamId)
       mergeRequests <- Future.sequence(getRepoPullRequests(projects))
     } yield mergeRequests
-  }
 
-  private def getRepoPullRequests(repos: Seq[Repo]): Seq[Future[PullRequestSearchResults]] = {
+  private def getRepoPullRequests(repos: Seq[Repo]): Seq[Future[PullRequestSearchResults]] =
     repos
-      .map(repo => {
+      .map{repo =>
         gitHubClient.repoPullRequests(repo.name)
-          .map(pullRequests => {
-            PullRequestSearchResults(repo, pullRequests)
-          })
-      })
-  }
+          .map(pullRequests => PullRequestSearchResults(repo, pullRequests))
+      }
 }
 
 case class PullRequestSearchResults(repo: Repo, pullRequests: Seq[PullRequestWithComments])
