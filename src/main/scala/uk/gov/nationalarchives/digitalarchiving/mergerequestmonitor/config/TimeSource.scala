@@ -1,6 +1,6 @@
 package uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.config
 
-import java.time.{Instant, ZoneId, ZonedDateTime}
+import java.time.{ZoneId, ZonedDateTime}
 
 /** A clock that can be queried for the time. This is mainly useful so that a fixed time can be injected by tests.
   */

@@ -1,6 +1,5 @@
 package uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor
 
-import com.typesafe.config.ConfigFactory
 import dispatch.Defaults.executor
 import uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.config.{CurrentTimeSource, GitHubAppConfig, TimeSource}
 import uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.github.{GitHubClient, PullRequestSearch}
