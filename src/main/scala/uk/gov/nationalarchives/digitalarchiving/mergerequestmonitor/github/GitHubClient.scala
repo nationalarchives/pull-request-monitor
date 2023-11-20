@@ -27,27 +27,29 @@ class GitHubClient(appConfig: GitHubAppConfig) {
   }
 
   def repoPullRequests(repoName: String): Future[Seq[PullRequestWithComments]] = {
-    val responseBody = get(s"/repos/${appConfig.organisationName}/$repoName/pulls")
-    responseBody.flatMap(body => {
+    val repoPrsEndpoint = s"/repos/${appConfig.organisationName}/$repoName/pulls"
+    val prsResponseBody = get(repoPrsEndpoint)
+    prsResponseBody.flatMap(body => {
       decode[Seq[PullRequest]](body) match {
         case Left(err) => Future.failed(err)
-        case Right(value) => Future.sequence {
-          value.map(pr => {
+        case Right(prs) => Future.sequence {
+          prs.map(pr => {
+            val prEndpoint = s"$repoPrsEndpoint/${pr.number}"
             for {
-              reviewPr <- get(s"/repos/${appConfig.organisationName}/$repoName/pulls/${pr.number}/reviews").map(reviewBody => {
-                val approved = decode[Seq[PullRequestReview]](reviewBody) match {
+              reviewPr <- get(s"$prEndpoint/reviews").map(reviewBody => {
+                val approvalStatus = decode[Seq[PullRequestReview]](reviewBody) match {
                   case Left(err) => throw err
-                  case Right(value) => value.lastOption.map(prr => if(prr.state == "APPROVED") " - Approved" else "")
+                  case Right(prReviews) => prReviews.lastOption.map(prr => if(prr.state == "APPROVED") " - Approved" else "")
                 }
-                pr.copy(reviewStatus = approved)
+                pr.copy(reviewStatus = approvalStatus)
               })
-              commentsPr <- get(s"/repos/${appConfig.organisationName}/$repoName/pulls/${pr.number}/comments").map(reviewBody => {
+              prWithComments <- get(s"$prEndpoint/comments").map(reviewBody => {
                 decode[List[PullRequestComments]](reviewBody) match {
                   case Left(err) => throw err
-                  case Right(value) => PullRequestWithComments(reviewPr, value.map(_.user.login))
+                  case Right(comments) => PullRequestWithComments(reviewPr, comments.map(_.user.login))
                 }
               })
-            } yield commentsPr
+            } yield prWithComments
           })
         }
       }
