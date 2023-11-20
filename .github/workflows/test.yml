@@ -14,6 +14,6 @@ jobs:
     uses: nationalarchives/tdr-github-actions/.github/workflows/tdr_test.yml@main
     with:
       repo-name: pull-request-monitor
-      test-command: sbt test
+      test-command: sbt scalafmtCheckAll test
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
