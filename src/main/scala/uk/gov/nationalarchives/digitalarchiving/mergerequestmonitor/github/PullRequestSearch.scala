@@ -14,8 +14,9 @@ class PullRequestSearch(gitHubClient: GitHubClient, appConfig: GitHubAppConfig) 
 
   private def getRepoPullRequests(repos: Seq[Repo]): Seq[Future[PullRequestSearchResults]] =
     repos
-      .map{repo =>
-        gitHubClient.repoPullRequests(repo.name)
+      .map { repo =>
+        gitHubClient
+          .repoPullRequests(repo.name)
           .map(pullRequests => PullRequestSearchResults(repo, pullRequests))
       }
 }

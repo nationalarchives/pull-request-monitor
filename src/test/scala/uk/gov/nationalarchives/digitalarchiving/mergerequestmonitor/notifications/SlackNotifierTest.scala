@@ -7,21 +7,18 @@ class SlackNotifierTest extends org.specs2.mutable.Specification with Mockito {
   "the Slack notifier" should {
     "send a message to Slack" in {
       // Given
-      val appConfig = TestGitHubAppConfig(
-        false,
-        "url",
-        "org",
-        "team",
-        "gitHubUser",
-        "gitHubApiToken",
-        "url")
+      val appConfig = TestGitHubAppConfig(false, "url", "org", "team", "gitHubUser", "gitHubApiToken", "url")
       val slackClient = mock[SlackClient]
       val slackNotifier = new SlackNotifier(slackClient, appConfig)
 
       val projects = List(
-        TestProjectPresenter("some-project-name", List(
-          TestMergeRequestPresenter("Some Author", "some title", "http://example.com/MR1", 1),
-          TestMergeRequestPresenter("Other Author", "other title", "http://example.com/MR2", 1)))
+        TestProjectPresenter(
+          "some-project-name",
+          List(
+            TestMergeRequestPresenter("Some Author", "some title", "http://example.com/MR1", 1),
+            TestMergeRequestPresenter("Other Author", "other title", "http://example.com/MR2", 1)
+          )
+        )
       )
 
       // When
@@ -33,21 +30,18 @@ class SlackNotifierTest extends org.specs2.mutable.Specification with Mockito {
 
     "not send a message if this is a dry run" in {
       // Given
-      val appConfig = TestGitHubAppConfig(
-        true,
-        "url",
-        "org",
-        "team",
-        "gitHubUser",
-        "gitHubApiToken",
-        "url")
+      val appConfig = TestGitHubAppConfig(true, "url", "org", "team", "gitHubUser", "gitHubApiToken", "url")
       val slackClient = mock[SlackClient]
       val slackNotifier = new SlackNotifier(slackClient, appConfig)
 
       val projects = List(
-        TestProjectPresenter("some-project-name", List(
-          TestMergeRequestPresenter("Some Author", "some title", "http://example.com/MR2", 1),
-          TestMergeRequestPresenter("Other Author", "other title", "http://example.com/MR2", 1)))
+        TestProjectPresenter(
+          "some-project-name",
+          List(
+            TestMergeRequestPresenter("Some Author", "some title", "http://example.com/MR2", 1),
+            TestMergeRequestPresenter("Other Author", "other title", "http://example.com/MR2", 1)
+          )
+        )
       )
 
       // When

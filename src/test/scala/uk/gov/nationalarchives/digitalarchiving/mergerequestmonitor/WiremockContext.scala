@@ -24,4 +24,3 @@ trait WiremockContext extends ForEach[WiremockServers] {
     }
   }
 }
-

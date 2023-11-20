@@ -13,7 +13,7 @@ import scala.util.Failure
 class GitHubPullRequestMonitor(gitHubClient: GitHubClient, slackClient: SlackClient, appConfig: GitHubAppConfig, timeSource: TimeSource) {
   def notifyOpenPullRequests(): Future[Unit] = {
     val pullRequestResults = new PullRequestSearch(gitHubClient, appConfig).getPullRequests
-    pullRequestResults.flatMap{searchResults =>
+    pullRequestResults.flatMap { searchResults =>
       val slackPresenters = searchResults.map(result => new GitHubRepoSlackPresenter(result.repo, result.pullRequests, timeSource))
       new SlackNotifier(slackClient, appConfig).sendNotification(slackPresenters, PULL_REQUEST)
     }
