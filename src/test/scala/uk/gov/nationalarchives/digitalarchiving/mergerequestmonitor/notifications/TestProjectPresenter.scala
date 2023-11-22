@@ -4,4 +4,12 @@ import uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.notification
 
 case class TestProjectPresenter(name: String, mergeRequests: Seq[MergeRequestSlackPresenter]) extends ProjectSlackPresenter
 
-case class TestMergeRequestPresenter(authorName: String, title: String, url: String, daysSinceLastUpdate: Long, draft: String = "", reviewStatus: String = "", commentUsers: String = "") extends MergeRequestSlackPresenter
+case class TestMergeRequestPresenter(
+    authorName: String,
+    title: String,
+    url: String,
+    daysSinceLastUpdate: Long,
+    draft: String = "",
+    reviewStatus: String = "",
+    commentUsers: String = ""
+) extends MergeRequestSlackPresenter

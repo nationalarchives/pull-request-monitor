@@ -4,12 +4,12 @@ import dispatch.Http
 import org.asynchttpclient.proxy.{ProxyServer, ProxyServerSelector}
 import org.asynchttpclient.uri.Uri
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 object CustomHttp {
   val proxied: Http = Http.withConfiguration(builder => builder.setProxyServerSelector(proxyServerSelector))
 
-    private def proxyServerSelector: ProxyServerSelector = {
+  private def proxyServerSelector: ProxyServerSelector = {
     val proxyHost = Option(System.getProperty("http.proxyHost"))
     val proxyPort = Option(System.getProperty("http.proxyPort")).map(port => port.toInt).getOrElse(80)
     val nonProxyHosts = Option(System.getProperty("http.nonProxyHosts"))
@@ -18,9 +18,12 @@ object CustomHttp {
       .asJava
 
     _: Uri => {
-      proxyHost.map(host => new ProxyServer.Builder(host, proxyPort)
-        .setNonProxyHosts(nonProxyHosts)
-        .build())
+      proxyHost
+        .map(host =>
+          new ProxyServer.Builder(host, proxyPort)
+            .setNonProxyHosts(nonProxyHosts)
+            .build()
+        )
         .orNull
     }
   }

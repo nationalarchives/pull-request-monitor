@@ -21,17 +21,12 @@ class GitHubPullRequestSlackPresenter(pullRequestWithComments: PullRequestWithCo
 
   override def daysSinceLastUpdate: Long = ChronoUnit.DAYS.between(pullRequest.updated_at, timeSource.now)
 
-  override def draft: String = if(pullRequest.draft) {
-    " Draft"
-  } else {
-    ""
-  }
+  override def draft: String = if (pullRequest.draft) " Draft" else ""
 
   override def reviewStatus: String = pullRequest.reviewStatus.getOrElse("")
 
-  override def commentUsers: String = if(pullRequestWithComments.commentUsers.isEmpty) {
-    ""
-  } else {
-    s" - Commented on by ${pullRequestWithComments.commentUsers.filter(_ != pullRequest.user.login).distinct.mkString(",")}"
-  }
+  override def commentUsers: String =
+    if (pullRequestWithComments.commentUsers.isEmpty) ""
+    else
+      s" - Commented on by ${pullRequestWithComments.commentUsers.distinct.filter(_ != pullRequest.user.login).mkString(", ")}"
 }
