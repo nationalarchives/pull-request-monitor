@@ -13,7 +13,7 @@ val circeVersion = "0.14.6"
 libraryDependencies ++= Seq(
   "io.circe" %% "circe-core",
   "io.circe" %% "circe-generic",
-  "io.circe" %% "circe-parser",
+  "io.circe" %% "circe-parser"
 ).map(_ % circeVersion)
 
 libraryDependencies += "com.typesafe" % "config" % "1.4.3"
