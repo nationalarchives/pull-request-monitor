@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: tdr
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: sbt run
         env:
           SLACK_URL: ${{ secrets.SLACK_WEBHOOK }}
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: dri
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: sbt run
         env:
           SLACK_URL: ${{ secrets.SLACK_WEBHOOK }}
@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: tre
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: sbt run
         env:
           SLACK_URL: ${{ secrets.SLACK_WEBHOOK }}
