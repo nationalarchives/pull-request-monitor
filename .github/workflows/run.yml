@@ -2,7 +2,7 @@ name: Run Pull Request Monitor
 on:
   workflow_dispatch:
   schedule:
-    - cron: '2 7,13 * * *'
+    - cron: '2 7,13 * * 1-5'
 jobs:
 
   run-tdr:
