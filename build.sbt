@@ -2,7 +2,7 @@ name := "merge-request-monitor"
 
 version := "0.1"
 
-scalaVersion := "2.13.13"
+scalaVersion := "2.13.14"
 
 (run / fork) := true
 
@@ -19,8 +19,8 @@ libraryDependencies ++= Seq(
 libraryDependencies += "com.typesafe" % "config" % "1.4.3"
 
 // Test
-libraryDependencies ++= Seq("org.specs2" %% "specs2-core" % "4.20.5" % "test")
-libraryDependencies ++= Seq("org.specs2" %% "specs2-mock" % "4.20.5" % "test")
+libraryDependencies ++= Seq("org.specs2" %% "specs2-core" % "4.20.6" % "test")
+libraryDependencies ++= Seq("org.specs2" %% "specs2-mock" % "4.20.6" % "test")
 libraryDependencies += "com.github.tomakehurst" % "wiremock" % "3.0.1" % Test
 
 (Test / scalacOptions) ++= Seq("-Yrangepos")
