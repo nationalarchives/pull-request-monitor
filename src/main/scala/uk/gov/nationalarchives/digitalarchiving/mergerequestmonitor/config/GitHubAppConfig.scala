@@ -8,6 +8,7 @@ trait GitHubAppConfig extends AppConfig {
   def teamId: String
   def gitHubUserName: String
   def gitHubApiToken: String
+  def excludeGithubRepositories: List[String]
 }
 
 object GitHubAppConfig extends GitHubAppConfig {
@@ -19,4 +20,5 @@ object GitHubAppConfig extends GitHubAppConfig {
   override val slackUrl: String = config.getString("slackUrl")
   override val gitHubUserName: String = config.getString("githubUserName")
   override val gitHubApiToken: String = config.getString("githubApiToken")
+  override val excludeGithubRepositories: List[String] = config.getString("excludeGithubRepositories").split(",").toList
 }
