@@ -1,7 +1,6 @@
 package uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.github
 
 import java.time.ZonedDateTime
-
 import dispatch.Defaults.executor
 import dispatch.url
 import io.circe.generic.auto._
@@ -23,7 +22,7 @@ class GitHubClient(appConfig: GitHubAppConfig) {
   def reposByTeam(teamId: String): Future[Seq[Repo]] = {
     val path = s"/teams/$teamId/repos"
     paginateRepos(s"${appConfig.gitHubBaseUrl}/orgs/${appConfig.organisationName}$path")
-      .map(_.filter(r => r.permissions.admin || r.permissions.push))
+      .map(_.filter(r => !appConfig.excludeGithubRepositories.contains(r.name) && (r.permissions.admin || r.permissions.push)))
   }
 
   def repoPullRequests(repoName: String): Future[Seq[PullRequestWithComments]] = {

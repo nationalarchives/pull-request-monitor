@@ -33,7 +33,16 @@ class GitHubPullRequestMonitorIntegrationTest extends org.specs2.mutable.Specifi
       val repo3CommentPath1 = "/repos/some-organisation/prototype-server/pulls/33/comments"
       val repo3CommentPath2 = "/repos/some-organisation/prototype-server/pulls/25/comments"
       val repo3Path = "/repos/some-organisation/prototype-server/pulls"
-      val appConfig = TestGitHubAppConfig(false, wiremockServers.repoHost.baseUrl, organisationName, teamName, gitHubUser, gitHubApiToken, wiremockServers.slack.baseUrl)
+      val appConfig = TestGitHubAppConfig(
+        false,
+        wiremockServers.repoHost.baseUrl,
+        organisationName,
+        teamName,
+        gitHubUser,
+        gitHubApiToken,
+        wiremockServers.slack.baseUrl,
+        List("tdr-prototype-mvc")
+      )
       val userData = "[{\"user\" : {\"login\": \"testlogin\"}}]"
 
       wiremockServers.repoHost.stubFor(
