@@ -8,7 +8,7 @@ scalaVersion := "2.13.14"
 
 libraryDependencies += "org.dispatchhttp" %% "dispatch-core" % "2.0.0"
 
-val circeVersion = "0.14.9"
+val circeVersion = "0.14.10"
 
 libraryDependencies ++= Seq(
   "io.circe" %% "circe-core",
