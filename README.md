@@ -16,8 +16,8 @@ TDR Notifier APP  7:06 AM
 ```
 Here are the pull requests to review today:
     da-reference-generator
-         tna-digital-archiving-jenkins: Update dynamodb to 2.23.10
-         tna-digital-archiving-jenkins: Update aws-java-sdk-dynamodb to 1.12.644
+         tna-da-bot: Update dynamodb to 2.23.10
+         tna-da-bot: Update aws-java-sdk-dynamodb to 1.12.644
     pull-request-monitor
 ```
 
