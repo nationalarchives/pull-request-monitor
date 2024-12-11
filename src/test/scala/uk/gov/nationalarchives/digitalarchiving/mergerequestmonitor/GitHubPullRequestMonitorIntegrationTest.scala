@@ -19,7 +19,6 @@ class GitHubPullRequestMonitorIntegrationTest extends org.specs2.mutable.Specifi
 
   "the pull request monitor" should {
     "post an open merge request to Slack" in { wiremockServers: WiremockServers =>
-
       // Given
       val appConfig = TestGitHubAppConfig(
         false,
@@ -45,7 +44,6 @@ class GitHubPullRequestMonitorIntegrationTest extends org.specs2.mutable.Specifi
     }
 
     "post an open merge request to Slack but ignore pull requests raised by bots" in { wiremockServers: WiremockServers =>
-
       // Given
       val appConfig = TestGitHubAppConfig(
         false,
@@ -71,7 +69,6 @@ class GitHubPullRequestMonitorIntegrationTest extends org.specs2.mutable.Specifi
     }
 
     "post an open merge request to Slack with PRs matching to the given pull request reference - dependabot[bot]" in { wiremockServers: WiremockServers =>
-
       // Given
       val appConfig = TestGitHubAppConfig(
         false,
@@ -97,7 +94,6 @@ class GitHubPullRequestMonitorIntegrationTest extends org.specs2.mutable.Specifi
     }
 
     "post an open merge request to Slack with PRs matching to the given pull request reference - Scala Steward Updates" in { wiremockServers: WiremockServers =>
-
       // Given
       val appConfig = TestGitHubAppConfig(
         false,
@@ -123,7 +119,6 @@ class GitHubPullRequestMonitorIntegrationTest extends org.specs2.mutable.Specifi
     }
 
     "post an open merge request to Slack with PRs matching to the given pull request reference - scala-steward-dependencies" in { wiremockServers: WiremockServers =>
-
       // Given
       val appConfig = TestGitHubAppConfig(
         false,

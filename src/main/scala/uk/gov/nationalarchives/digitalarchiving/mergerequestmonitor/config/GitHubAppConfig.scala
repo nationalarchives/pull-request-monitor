@@ -11,7 +11,7 @@ trait GitHubAppConfig extends AppConfig {
   def excludeGithubRepositories: List[String]
   def pullRequestRef: String
   def ignoreBotUpdates: Boolean
-  def botUsers:  List[String]
+  def botUsers: List[String]
 }
 
 object GitHubAppConfig extends GitHubAppConfig {
