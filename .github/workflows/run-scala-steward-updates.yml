@@ -15,5 +15,5 @@ jobs:
           SLACK_URL: ${{ secrets.BAU_SLACK_WEBHOOK }}
           GITHUB_API_TOKEN: ${{ secrets.WORKFLOW_PAT }}
           TEAM: transfer-digital-records
-          pullRequestRef: Scala Steward Updates
+          PULL_REQUEST_REF: Scala Steward Updates
           DRY_RUN: false
