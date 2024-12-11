@@ -1,0 +1,19 @@
+name: Run TDR PR Monitor - Dependabot
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * TUE'
+jobs:
+
+  run:
+    runs-on: ubuntu-latest
+    environment: tdr
+    steps:
+      - uses: actions/checkout@v4
+      - run: sbt run
+        env:
+          SLACK_URL: ${{ secrets.BAU_SLACK_WEBHOOK }}
+          GITHUB_API_TOKEN: ${{ secrets.WORKFLOW_PAT }}
+          TEAM: transfer-digital-records
+          pullRequestRef: dependabot[bot]
+          DRY_RUN: false
