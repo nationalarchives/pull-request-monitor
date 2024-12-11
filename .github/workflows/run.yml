@@ -16,6 +16,7 @@ jobs:
           GITHUB_API_TOKEN: ${{ secrets.WORKFLOW_PAT }}
           TEAM: transfer-digital-records
           DRY_RUN: false
+          IGNORE_BOT_UPDATES: true
   run-dri:
     runs-on: ubuntu-latest
     environment: dri

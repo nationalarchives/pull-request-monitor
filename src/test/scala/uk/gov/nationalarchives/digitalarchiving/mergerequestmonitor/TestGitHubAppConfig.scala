@@ -10,7 +10,10 @@ case class TestGitHubAppConfig(
     gitHubUserName: String,
     gitHubApiToken: String,
     slackBaseUrl: String,
-    excludeGithubRepositories: List[String]
+    excludeGithubRepositories: List[String],
+    botUsers: List[String],
+    ignoreBotUpdates: Boolean,
+    pullRequestRef: String
 ) extends GitHubAppConfig {
 
   val slackWebhookPath = "/slack/webhook"

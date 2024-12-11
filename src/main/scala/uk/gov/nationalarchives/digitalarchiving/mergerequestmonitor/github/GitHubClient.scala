@@ -12,12 +12,6 @@ import uk.gov.nationalarchives.digitalarchiving.mergerequestmonitor.http.CustomH
 import scala.concurrent.Future
 
 class GitHubClient(appConfig: GitHubAppConfig) {
-  implicit class EitherUtils[U](e: Either[Exception, U]) {
-    def toFuture: Future[U] = e match {
-      case Left(err)    => Future.failed(err)
-      case Right(value) => Future(value)
-    }
-  }
 
   def reposByTeam(teamId: String): Future[Seq[Repo]] = {
     val path = s"/teams/$teamId/repos"
@@ -25,7 +19,19 @@ class GitHubClient(appConfig: GitHubAppConfig) {
       .map(_.filter(r => !appConfig.excludeGithubRepositories.contains(r.name) && (r.permissions.admin || r.permissions.push)))
   }
 
-  def repoPullRequests(repoName: String): Future[Seq[PullRequestWithComments]] = {
+  private def filterPullRequests(pullRequests: Seq[PullRequest], pullRequestRef: String): Seq[PullRequest] = {
+    if (appConfig.ignoreBotUpdates) {
+      pullRequests.filterNot(pr => appConfig.botUsers.contains(pr.user.login))
+    } else {
+      if (pullRequestRef.nonEmpty) {
+        pullRequests.filter(pr => pr.title.contains(pullRequestRef) || pr.user.login == pullRequestRef)
+      } else {
+        pullRequests
+      }
+    }
+  }
+
+  def repoPullRequests(repoName: String, pullRequestRef: String): Future[Seq[PullRequestWithComments]] = {
     val repoPrsEndpoint = s"/repos/${appConfig.organisationName}/$repoName/pulls"
     val prsResponseBody = get(repoPrsEndpoint)
     prsResponseBody.flatMap { body =>
@@ -33,7 +39,8 @@ class GitHubClient(appConfig: GitHubAppConfig) {
         case Left(err) => Future.failed(err)
         case Right(prs) =>
           Future.sequence {
-            prs.map { pr =>
+            val filteredPrs = filterPullRequests(prs, pullRequestRef)
+            filteredPrs.map { pr =>
               val prEndpoint = s"$repoPrsEndpoint/${pr.number}"
               for {
                 reviewPr <- get(s"$prEndpoint/reviews").map { reviewBody =>
@@ -100,7 +107,8 @@ case class PullRequest(
     updated_at: ZonedDateTime,
     draft: Boolean,
     state: String,
-    reviewStatus: Option[String]
+    reviewStatus: Option[String],
+    labels: List[Label] = Nil
 )
 
 case class PullRequestWithComments(pullRequest: PullRequest, commentUsers: List[String] = Nil)
@@ -110,3 +118,5 @@ case class PullRequestReview(state: String)
 case class PullRequestComments(user: GitHubUser)
 
 case class GitHubUser(login: String)
+
+case class Label(name: String)
