@@ -7,7 +7,7 @@ class SlackNotifierTest extends org.specs2.mutable.Specification with Mockito {
   "the Slack notifier" should {
     "send a message to Slack" in {
       // Given
-      val appConfig = TestGitHubAppConfig(false, "url", "org", "team", "gitHubUser", "gitHubApiToken", "url", List())
+      val appConfig = TestGitHubAppConfig(false, "url", "org", "team", "gitHubUser", "gitHubApiToken", "url", List(), List(""), false, "")
       val slackClient = mock[SlackClient]
       val slackNotifier = new SlackNotifier(slackClient, appConfig)
 
@@ -30,7 +30,7 @@ class SlackNotifierTest extends org.specs2.mutable.Specification with Mockito {
 
     "not send a message if this is a dry run" in {
       // Given
-      val appConfig = TestGitHubAppConfig(true, "url", "org", "team", "gitHubUser", "gitHubApiToken", "url", List())
+      val appConfig = TestGitHubAppConfig(true, "url", "org", "team", "gitHubUser", "gitHubApiToken", "url", List(), List(""), false, "")
       val slackClient = mock[SlackClient]
       val slackNotifier = new SlackNotifier(slackClient, appConfig)
 
