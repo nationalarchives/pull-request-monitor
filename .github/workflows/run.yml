@@ -10,6 +10,7 @@ jobs:
     environment: tdr
     steps:
       - uses: actions/checkout@v4
+      - uses: sbt/setup-sbt@v1
       - run: sbt run
         env:
           SLACK_URL: ${{ secrets.SLACK_WEBHOOK }}
@@ -22,6 +23,7 @@ jobs:
     environment: dri
     steps:
       - uses: actions/checkout@v4
+      - uses: sbt/setup-sbt@v1
       - run: sbt run
         env:
           SLACK_URL: ${{ secrets.SLACK_WEBHOOK }}
@@ -33,6 +35,7 @@ jobs:
     environment: tre
     steps:
       - uses: actions/checkout@v4
+      - uses: sbt/setup-sbt@v1
       - run: sbt run
         env:
           SLACK_URL: ${{ secrets.SLACK_WEBHOOK }}
