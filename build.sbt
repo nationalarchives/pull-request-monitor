@@ -8,7 +8,7 @@ scalaVersion := "2.13.16"
 
 libraryDependencies += "org.dispatchhttp" %% "dispatch-core" % "2.0.0"
 
-val circeVersion = "0.14.10"
+val circeVersion = "0.14.12"
 
 libraryDependencies ++= Seq(
   "io.circe" %% "circe-core",
@@ -19,8 +19,8 @@ libraryDependencies ++= Seq(
 libraryDependencies += "com.typesafe" % "config" % "1.4.3"
 
 // Test
-libraryDependencies ++= Seq("org.specs2" %% "specs2-core" % "4.20.9" % "test")
-libraryDependencies ++= Seq("org.specs2" %% "specs2-mock" % "4.20.9" % "test")
+libraryDependencies ++= Seq("org.specs2" %% "specs2-core" % "4.21.0" % "test")
+libraryDependencies ++= Seq("org.specs2" %% "specs2-mock" % "4.21.0" % "test")
 libraryDependencies += "com.github.tomakehurst" % "wiremock" % "3.0.1" % Test
 
 (Test / scalacOptions) ++= Seq("-Yrangepos")
