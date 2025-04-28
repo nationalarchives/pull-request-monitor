@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: tdr
     steps:
-      - uses: actions/checkout@v4
-      - uses: sbt/setup-sbt@v1
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: sbt/setup-sbt@26ab4b0fa1c47fa62fc1f6e51823a658fb6c760c
       - run: sbt run
         env:
           SLACK_URL: ${{ secrets.BAU_SLACK_WEBHOOK }}
