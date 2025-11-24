@@ -36,7 +36,7 @@ class GitHubClient(appConfig: GitHubAppConfig) {
     val prsResponseBody = get(repoPrsEndpoint)
     prsResponseBody.flatMap { body =>
       decode[Seq[PullRequest]](body) match {
-        case Left(err) => Future.failed(err)
+        case Left(err)  => Future.failed(err)
         case Right(prs) =>
           Future.sequence {
             val filteredPrs = filterPullRequests(prs, pullRequestRef)
