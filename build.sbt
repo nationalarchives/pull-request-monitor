@@ -7,6 +7,7 @@ scalaVersion := "2.13.18"
 (run / fork) := true
 
 libraryDependencies += "org.dispatchhttp" %% "dispatch-core" % "2.0.0"
+libraryDependencies += "org.asynchttpclient" % "async-http-client" % "3.0.7"
 
 val circeVersion = "0.14.15"
 
