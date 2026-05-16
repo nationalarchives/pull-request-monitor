@@ -7,7 +7,7 @@ scalaVersion := "2.13.18"
 (run / fork) := true
 
 libraryDependencies += "org.dispatchhttp" %% "dispatch-core" % "2.0.0"
-libraryDependencies += "org.asynchttpclient" % "async-http-client" % "3.0.9"
+libraryDependencies += "org.asynchttpclient" % "async-http-client" % "3.0.10"
 
 val circeVersion = "0.14.15"
 
@@ -17,7 +17,7 @@ libraryDependencies ++= Seq(
   "io.circe" %% "circe-parser"
 ).map(_ % circeVersion)
 
-libraryDependencies += "com.typesafe" % "config" % "1.4.6"
+libraryDependencies += "com.typesafe" % "config" % "1.4.8"
 
 // Test
 libraryDependencies ++= Seq("org.specs2" %% "specs2-core" % "4.23.0" % "test")
